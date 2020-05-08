@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+  <script src="https://kit.fontawesome.com/8923751c0e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <canvas id="draw" width="800" height="800">
+  </canvas>
+  <div class='buttons'>
+    <p><i class="fas fa-broom"></i></p>
+    <p><i class="fas fa-tint"></i></p>
+    <p><i class="fas fa-text-height"></i></p>
+  </div>
+  <input type="color" name="basecolor" value="#7C007C" id="colorpicker" class="hidden">
+  <p class="hidden" id="sizepickerP">
+    <input type="range" name="blur" min="0" max="100" value="50" id="sizepicker">
+  </p>
+<script>
+  const canvas = document.getElementById('draw');
+  const color = document.getElementById('colorpicker')
+  const size = document.getElementById('sizepicker')
+  const sizecontainer = document.getElementById('sizepickerP')
+  const colorbtn = document.querySelector('.fa-tint')
+  const sizebtn = document.querySelector('.fa-text-height')
+  const wipebtn = document.querySelector('.fa-broom')
+  const ctx = canvas.getContext('2d')
+
+  canvas.width = window.innerWidth
+  canvas.hieght = window.innerHeight
+  
+  ctx.strokeStyle = color.value;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = size.value;
+
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+
+  draw = (e) => {
+    if (!isDrawing) return;
+    /* ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`; */
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY)
+    ctx.lineTo(e.offsetX, e.offsetY)
+    ctx.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY]
+    hue ++;
+    hue >= 360 ? hue = 0 : hue
+  }
+
+  colorChange = (e) => {
+    ctx.strokeStyle = e.currentTarget.value
+  }
+
+  sizeChange = (e) => {
+    ctx.lineWidth = e.currentTarget.value
+  }
+
+  Toggle = (e) => {
+    if (e.path[0].classList.value.includes('tint')) {
+      color.classList.toggle('hidden');
+    } else if (e.path[0].classList.value.includes('height')) {
+      sizecontainer.classList.toggle('hidden');
+    }
+  }
+
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('mouseup', () => isDrawing = false)
+  canvas.addEventListener('mousedown', (e) => {
+    [lastX, lastY] = [e.offsetX, e.offsetY]; 
+    isDrawing = true;
+  })
+  canvas.addEventListener('mouseout', () => isDrawing = false)
+  color.addEventListener('change', colorChange)
+  size.addEventListener('change', sizeChange)
+  colorbtn.addEventListener('click', Toggle)
+  sizebtn.addEventListener('click', Toggle)
+  wipebtn.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  })
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+
+  #draw {
+    position: relative;
+    background: #DCDBD9;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #colorpicker {
+    position: absolute;
+    top: 94px;
+    left: 55px;
+    z-index: 2;
+  }
+
+  #sizepickerP {
+    position: absolute;
+    top: 158px;
+    left: 55px;
+    z-index: 2;
+    margin: 0;
+    background: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(169, 169, 169);
+  }
+
+  .buttons {
+    position: absolute;
+    z-index: 2;
+    background: rgba(0,0,0,0.6);
+    border-radius: 8px;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .buttons i {
+    font-size: 24px;
+    padding: 4px;
+    color: white;
+  }
+</style>
+
+</body>
+</html>
