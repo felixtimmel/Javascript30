@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <div class="input_wrap">
+      <label for="color">Search Color :</label>
+      <input type="color" name="base" min="10" value="#35BFCA">
+    </div>
+
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State">
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+  </div>
+
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const cities = []
+
+fetch(endpoint)
+  .then(resp => resp.json())
+  .then(data => cities.push(...data))
+
+filtered = (value, cities) => {
+  const array =  cities.filter(item => {
+    const word = new RegExp(value, 'gi')
+    return  item.city.match(word) || item.state.match(word)
+  })
+  return array.slice(0, 15)
+  }
+
+numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+displayMatches = (e) => {
+  const matchArray = filtered(e.currentTarget.value, cities);
+  const html = matchArray.map(item => {
+    const regex = new RegExp(e.currentTarget.value, 'gi')
+    const cityName = item.city.replace(regex, `<span class="hl">${e.currentTarget.value}</span>`)
+    const stateName = item.state.replace(regex, `<span class="hl">${e.currentTarget.value}</span>`)
+    return `
+      <li>
+          <span class="name">${cityName}, ${stateName}</span>
+          <span class="population">${numberWithCommas(item.population)}</span>
+      </li>
+      `
+  }).join('');
+  list.innerHTML = html
+}
+
+const input = document.querySelector('.search')
+const list = document.querySelector('.suggestions')
+const color = document.querySelector('.input_wrap input')
+
+handleChange = (e) => {
+  document.documentElement.style.setProperty(`--${e.currentTarget.name}`, e.currentTarget.value )
+}
+
+color.addEventListener('change', handleChange);
+input.addEventListener('keyup', displayMatches);
+
+</script>
+</body>
+</html>
