@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get User Media Code Along!</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/8923751c0e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="photobooth">
+    <div class="controls">
+      <button onClick="takePhoto()"><i class="fas fa-camera"></i></button>
+      <button onClick="toggleRedStyle()"><i class="fas fa-eye-dropper"></i></button>
+      <button onClick="toggleSplit()"><i class="fas fa-glasses"></i></button>
+      <button onClick="toggleGhost()"><i class="fas fa-ghost"></i></button>
+      <button onClick="toggleGreenScreen()">Green Screen</button>
+      <div class="hide rgb">
+        <div>
+          <label for="rmin">Red Min:</label>
+          <input type="range" min=0 max=255 name="rmin">
+        </div>
+        <div>
+          <label for="rmax">Red Max:</label>
+          <input type="range" min=0 max=255 name="rmax">
+        </div>
+        <div>
+          <label for="gmin">Green Min:</label>
+          <input type="range" min=0 max=255 name="gmin">
+        </div>
+        <div>
+          <label for="gmax">Green Max:</label>
+          <input type="range" min=0 max=255 name="gmax">
+        </div>
+        <div>
+          <label for="bmin">Blue Min:</label>
+          <input type="range" min=0 max=255 name="bmin">
+        </div>
+        <div>
+          <label for="bmax">Blue Max:</label>
+          <input type="range" min=0 max=255 name="bmax">
+        </div>
+      </div>
+    </div>
+
+    <canvas class="photo"></canvas>
+    <video class="player"></video>
+    <div class="strip"></div>
+  </div>
+
+  <audio class="snap" src="camera-shutter-click-03.mp3" hidden></audio>
+
+  <script src="scripts.js"></script>
+
+</body>
+</html>
