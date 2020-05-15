@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Follow Along Nav</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="top">
+    <div class="dropdownBackground">
+      <span class="arrow"></span>
+    </div>
+
+    <ul class="cool">
+      <li>
+        <a href="#">About Me</a>
+        <div class="dropdown dropdown1">
+          <div class="bio">
+            <img src="https://avatars2.githubusercontent.com/u/54404722?s=460&u=e1a418dd0c981bc0b514d1065fccb903638c8c0a&v=4">
+            <p>Salut, moi c'est Félix, developer web situé sur Paris.</br>
+              Après mon master en marketing digital, j'ai décidé d'approfondir mes compétences téchniques en allant suivre à Montreal une formation de développeur intensive de 9 semaines : Le wagon.</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="#">Skills</a>
+        <ul class="dropdown courses">
+          <li>
+            <span class="code">Ruby on Rails</span>
+          </li>
+          <li>
+            <span class="code">JS ES6</span>
+          </li>
+          <li>
+            <span class="code">React.js</span>
+          </li>
+          <li>
+            <span class="code">HTML / CSS</span>
+          </li>
+          <li>
+            <span class="code">UX / UI design</span>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Other Links</a>
+        <ul class="dropdown dropdown3">
+          <li><a class="button" href="https://www.linkedin.com/in/felixtimmel/">LinkedIn</a></li>
+          <li><a class="button" href="https://www.facebook.com/felix.timmel/">Facebook</a></li>
+          <li><a class="button" href="https://github.com/felixtimmel">Github</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+<script>
+  const links = document.querySelectorAll('.cool > li')
+  const background = document.querySelector('.dropdownBackground')
+  const nav = document.querySelector('.top')
+
+  onMouseEnter = (e) => {
+    const content = e.currentTarget.querySelector('.dropdown');
+    background.classList.add('open');
+    content.style.display = 'block';
+    const contentCoords = content.getBoundingClientRect();
+    const navCoords = nav.getBoundingClientRect();
+    const coords = {
+      width: `${contentCoords.width}px`,
+      height: `${contentCoords.height}px`,
+      top: `${contentCoords.y - navCoords.y}px`,
+      left: `${contentCoords.left}px`,
+    }
+    background.style.width = coords.width;
+    background.style.height = coords.height;
+    background.style.top = coords.top;
+    background.style.left = coords.left;
+
+    setTimeout(() => {
+      content.style.opacity = 1;
+    }, 150);
+  }
+
+  onMouseLeave = (e) => {
+    const content = e.currentTarget.querySelector('.dropdown');
+    content.style.opacity = 0;
+    background.classList.remove('open');
+    content.style.display = 'none';
+  }
+
+  links.forEach(link => link.addEventListener('mouseenter', onMouseEnter))
+  links.forEach(link => link.addEventListener('mouseleave', onMouseLeave))
+</script>
+
+</body>
+</html>
