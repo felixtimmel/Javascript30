@@ -1,5 +1,7 @@
 let countdown;
-const timeLeft = document.querySelectorAll('.display__time-left');
+const timeLeft = document.querySelector('.display__time-left');
+const endTime = document.querySelector('.display__end-time');
+const btns = document.getAttribute('data-time')
 
 timer = (seconds) => {
   clearInterval(countdown);
@@ -23,4 +25,8 @@ displayTimeLeft = (seconds) => {
   const display = `${mins < 10 ? '0' : ''}${mins}:${remaindersSeconds < 10 ? '0' : ''}${remaindersSeconds}`;
   console.log(display)
   timeLeft.textContent = display;
+}
+
+displayEndTime = () => {
+  let time = Date.now()
 }
